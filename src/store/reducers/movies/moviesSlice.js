@@ -5,7 +5,7 @@ import { APIRoutesBase } from "../../../core/http";
 export const fetchMovies = createAsyncThunk(
   "movies/fetchMovies",
   async (query = {}) => {
-    const response = await RequestService.getMovies(
+    const response = await RequestService.fetchAllMovies(
       APIRoutesBase.DISCROVER_MOVIE,
       query
     );
@@ -16,12 +16,17 @@ export const fetchMovies = createAsyncThunk(
 const state = {
   movies: [],
   fetchStatus: "",
+  selectedMovie: null,
 };
 
 const moviesSlice = createSlice({
   name: "movies",
   initialState: state,
-  reducers: {},
+  reducers: {
+    setSelectedMovie: (state, action) => {
+      state.selectedMovie = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchMovies.fulfilled, (state, action) => {
@@ -38,3 +43,4 @@ const moviesSlice = createSlice({
 });
 
 export default moviesSlice.reducer;
+export const { setSelectedMovie } = moviesSlice.actions;

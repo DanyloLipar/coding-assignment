@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
+import { clearAllStarred } from "../store/reducers/starred/starredSlice";
+import { useAppSelector, useAppDispatch } from "../store/store";
 
 import Movie from "./Movie";
-import starredSlice from "../store/reducers/starred/starredSlice";
 import "../assets/styles/components/starred.scss";
-import { useAppSelector, useAppDispatch } from "../store/store";
 
 const Starred = () => {
   const { starredMovies } = useAppSelector((state) => state.starred);
-  const { clearAllStarred } = starredSlice.actions;
   const dispatch = useAppDispatch();
 
   return (

@@ -33,14 +33,6 @@ const App = () => {
     getSearchResults(query);
   };
 
-  const getMovies = () => {
-    if (searchQuery) {
-      dispatch(fetchMovies());
-    } else {
-      dispatch(fetchMovies());
-    }
-  };
-
   return (
     <>
       <AppRouter />

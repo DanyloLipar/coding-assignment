@@ -2,21 +2,20 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/store";
 
 import Movie from "./Movie";
-import watchLaterSlice from "../store/reducers/watchLater/watchLaterSlice";
+import { removeAllWatchLater } from "../store/reducers/watchLater/watchLaterSlice";
 import "../assets/styles/components/starred.scss";
 
 const WatchLater = () => {
-  const { watchLater } = useAppSelector((state) => state.watchLater);
-  const { remveAllWatchLater } = watchLaterSlice.actions;
+  const { watchLaterMovies } = useAppSelector((state) => state.watchLater);
   const dispatch = useAppDispatch();
 
   return (
     <div className="starred" data-testid="watch-later-div">
-      {watchLater.watchLaterMovies.length > 0 && (
+      {watchLaterMovies.length > 0 && (
         <div data-testid="watch-later-movies" className="starred-movies">
           <h6 className="header">Watch Later List</h6>
           <div className="row">
-            {watchLater.watchLaterMovies.map((movie) => (
+            {watchLaterMovies.map((movie) => (
               <Movie movie={movie} key={movie.id} />
             ))}
           </div>
@@ -24,7 +23,7 @@ const WatchLater = () => {
           <footer className="text-center">
             <button
               className="btn btn-primary"
-              onClick={() => dispatch(remveAllWatchLater())}
+              onClick={() => dispatch(removeAllWatchLater())}
             >
               Empty list
             </button>
@@ -32,7 +31,7 @@ const WatchLater = () => {
         </div>
       )}
 
-      {watchLater.watchLaterMovies.length === 0 && (
+      {watchLaterMovies.length === 0 && (
         <div className="text-center empty-cart">
           <i className="bi bi-heart" />
           <p>You have no movies saved to watch later.</p>
