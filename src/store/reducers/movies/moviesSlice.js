@@ -1,16 +1,26 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import RequestService from "../../../core/services/request.service";
+import { APIRoutesBase } from "../../../core/http";
 
-export const fetchMovies = createAsyncThunk("fetch-movies", async () => {
-  const response = await fetch();
-  return response.json();
-});
+export const fetchMovies = createAsyncThunk(
+  "movies/fetchMovies",
+  async (query = {}) => {
+    const response = await RequestService.getMovies(
+      APIRoutesBase.DISCROVER_MOVIE,
+      query
+    );
+    return response.data;
+  }
+);
+
+const state = {
+  movies: [],
+  fetchStatus: "",
+};
 
 const moviesSlice = createSlice({
   name: "movies",
-  initialState: {
-    movies: [],
-    fetchStatus: "",
-  },
+  initialState: state,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -27,4 +37,4 @@ const moviesSlice = createSlice({
   },
 });
 
-export default moviesSlice;
+export default moviesSlice.reducer;

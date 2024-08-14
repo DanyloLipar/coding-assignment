@@ -6,6 +6,8 @@ import "../assets/styles/components/header.scss";
 const Header = () => {
   const { starredMovies } = useSelector((state) => state.starred);
 
+  console.log(starredMovies);
+
   return (
     <header>
       <Link to="/" data-testid="home">

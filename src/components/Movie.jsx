@@ -1,21 +1,29 @@
-import { useDispatch, useSelector } from "react-redux";
 import starredSlice from "../store/reducers/starred/starredSlice";
 import watchLaterSlice from "../store/reducers/watchLater/watchLaterSlice";
 import placeholder from "../assets/images/not-found-500X750.jpeg";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { useEffect, useState } from "react";
 
-const Movie = ({ movie, viewTrailer, closeCard }) => {
-  const state = useSelector((state) => state);
-  const { starred, watchLater } = state;
+const Movie = ({ movie }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [videoKey, setVideoKey] = useState();
+
+  const { starred, watchLater } = useAppSelector((state) => state.starred);
   const { starMovie, unstarMovie } = starredSlice.actions;
   const { addToWatchLater, removeFromWatchLater } = watchLaterSlice.actions;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const myClickHandler = (e) => {
     if (!e) var e = window.event;
     e.cancelBubble = true;
     if (e.stopPropagation) e.stopPropagation();
     e.target.parentElement.parentElement.classList.remove("opened");
+  };
+
+  const viewTrailer = (movie) => {
+    if (!videoKey) setIsOpen(true);
+    setIsOpen(true);
   };
 
   return (
