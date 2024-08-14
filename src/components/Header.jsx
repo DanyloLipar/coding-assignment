@@ -3,12 +3,12 @@ import { useSelector } from "react-redux";
 
 import "../assets/styles/components/header.scss";
 
-const Header = ({ searchMovies }) => {
+const Header = () => {
   const { starredMovies } = useSelector((state) => state.starred);
 
   return (
     <header>
-      <Link to="/" data-testid="home" onClick={() => searchMovies("")}>
+      <Link to="/" data-testid="home">
         <i className="bi bi-film" />
       </Link>
 
@@ -28,21 +28,21 @@ const Header = ({ searchMovies }) => {
           )}
         </NavLink>
         <NavLink to="/watch-later" className="nav-fav">
-          watch later
+          Watch Later
         </NavLink>
       </nav>
 
       <div className="input-group rounded">
-        <Link to="/" onClick={(e) => searchMovies("")} className="search-link">
-          <input
-            type="search"
-            data-testid="search-movies"
-            onKeyUp={(e) => searchMovies(e.target.value)}
-            className="form-control rounded"
-            placeholder="Search movies..."
-            aria-label="Search movies"
-            aria-describedby="search-addon"
-          />
+        <input
+          type="search"
+          data-testid="search-movies"
+          className="form-control rounded"
+          placeholder="Search movies..."
+          aria-label="Search movies"
+          aria-describedby="search-addon"
+        />
+        <Link to="/" className="search-link">
+          <i className="bi bi-search" aria-hidden="true" />
         </Link>
       </div>
     </header>

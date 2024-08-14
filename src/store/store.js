@@ -1,14 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
-import moviesSlice from "./reducers/movies/moviesSlice";
-import starredSlice from "./reducers/starred/starredSlice";
-import watchLaterSlice from "./reducers/watchLater/watchLaterSlice";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import reducers from "./reducers";
+import { useDispatch, useSelector } from "react-redux";
 
-const store = configureStore({
-  reducer: {
-    movies: moviesSlice.reducer,
-    starred: starredSlice.reducer,
-    watchLater: watchLaterSlice.reducer,
-  },
+const rootReducer = combineReducers(reducers);
+
+export const store = configureStore({
+  reducer: rootReducer,
 });
 
-export default store;
+export const useAppDispatch = useDispatch;
+export const useAppSelector = useSelector;

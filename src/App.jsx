@@ -16,6 +16,7 @@ import Starred from "./components/Starred";
 import WatchLater from "./components/WatchLater";
 import YouTubePlayer from "./components/YoutubePlayer";
 import "./assets/styles/style.scss";
+import AppRouter from "./core/router/AppRouter";
 
 const App = () => {
   const state = useSelector((state) => state);
@@ -77,7 +78,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App">
+    <>
       <Header
         searchMovies={searchMovies}
         searchParams={searchParams}
@@ -92,33 +93,10 @@ const App = () => {
             <h6>no trailer available. Try another movie</h6>
           </div>
         )}
-
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Movies
-                movies={movies}
-                viewTrailer={viewTrailer}
-                closeCard={closeCard}
-              />
-            }
-          />
-          <Route
-            path="/starred"
-            element={<Starred viewTrailer={viewTrailer} />}
-          />
-          <Route
-            path="/watch-later"
-            element={<WatchLater viewTrailer={viewTrailer} />}
-          />
-          <Route
-            path="*"
-            element={<h1 className="not-found">Page Not Found</h1>}
-          />
-        </Routes>
       </div>
-    </div>
+
+      <AppRouter />
+    </>
   );
 };
 
