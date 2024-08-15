@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import {
   starMovie,
@@ -19,14 +19,13 @@ const Movie = ({ movie }) => {
   const { starredMovies } = useAppSelector((state) => state.starred);
   const { watchLaterMovies } = useAppSelector((state) => state.watchLater);
 
-  const closeCard = (id) => {
-    if (movie.id === id) {
-      setIsOpened(true);
-    }
+  const closeCard = (event) => {
+    event.stopPropagation();
+    setIsOpened(false);
   };
 
-  const viewTrailer = () => {
-    console.log(movie);
+  const viewTrailer = (event) => {
+    event.stopPropagation();
     dispatch(setSelectedMovie(movie));
   };
 
@@ -41,7 +40,8 @@ const Movie = ({ movie }) => {
     (watchLaterMovie) => watchLaterMovie.id === movie.id
   );
 
-  const handleIsStarred = () => {
+  const handleIsStarred = (event) => {
+    event.stopPropagation();
     dispatch(
       isStarred
         ? unstarMovie(movie)
@@ -55,7 +55,8 @@ const Movie = ({ movie }) => {
     );
   };
 
-  const handleWatchLater = () => {
+  const handleWatchLater = (event) => {
+    event.stopPropagation();
     dispatch(
       isInWatchLater
         ? removeFromWatchLater(movie)
@@ -70,29 +71,36 @@ const Movie = ({ movie }) => {
   };
 
   return (
-    <div className="wrapper col-3 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+    <div className="movie-card">
       <div
-        className="card"
-        hidden={isOpened}
-        onClick={() => setIsOpened(false)}
+        className={`card ${isOpened ? "opened" : ""}`}
+        onClick={() => {
+          setIsOpened(true);
+        }}
       >
-        <div className="card-body text-center">
-          <div className="overlay" />
+        <div className="card-body">
+          <img
+            className="center-block"
+            src={
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                : placeholder
+            }
+            alt={`${movie.title} poster`}
+          />
           <div className="info_panel">
             <div className="overview">{movie.overview}</div>
             <div className="year">{movie.release_date?.substring(0, 4)}</div>
-
             <span
               className="btn-star"
               data-testid={isStarred ? "unstar-link" : "starred-link"}
-              onClick={handleIsStarred}
+              onClick={(event) => handleIsStarred(event)}
             >
               <i
                 className={`bi ${isStarred ? "bi-star-fill" : "bi-star"}`}
                 data-testid={isStarred ? "star-fill" : ""}
               />
             </span>
-
             <button
               type="button"
               data-testid={
@@ -101,43 +109,31 @@ const Movie = ({ movie }) => {
               className={`btn btn-light btn-watch-later ${
                 isInWatchLater ? "blue" : ""
               }`}
-              onClick={handleWatchLater}
+              onClick={(event) => handleWatchLater(event)}
             >
               {isInWatchLater ? <i className="bi bi-check" /> : "Watch Later"}
             </button>
-
             <button
               type="button"
               className="btn btn-dark"
-              onClick={viewTrailer}
+              onClick={(event) => viewTrailer(event)}
             >
               View Trailer
             </button>
           </div>
-          {selectedMovie && selectedMovie.id === movie.id ? (
-            <PlayerModal />
-          ) : (
-            <img
-              className="center-block"
-              src={
-                movie.poster_path
-                  ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
-                  : placeholder
-              }
-              alt={`${movie.title} poster`}
-            />
-          )}
         </div>
-        <h6 className="title mobile-card">{movie.title}</h6>
         <h6 className="title">{movie.title}</h6>
         <button
           type="button"
           className="close"
-          onClick={() => closeCard(movie.id)}
+          onClick={(event) => closeCard(event)}
           aria-label="Close"
         >
           <span aria-hidden="true">&times;</span>
         </button>
+        {selectedMovie && selectedMovie.id === movie.id ? (
+          <PlayerModal />
+        ) : null}
       </div>
     </div>
   );

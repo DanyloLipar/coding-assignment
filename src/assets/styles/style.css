@@ -1,0 +1,7 @@
+@import url("./components/header.css");
+@import url("./components/movies.css");
+@import url("./components/starred-watchlater.css");
+
+.general {
+  padding-top: 100px;
+}

@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { clearAllStarred } from "../../store/reducers/starred/starredSlice";
 import { useAppSelector, useAppDispatch } from "../../store/store";
-import Movie from "../Movie";
-import "../../assets/styles/components/starred.scss";
+import MoviesList from "../MoviesList";
 
 const StarredMovies = () => {
   const { starredMovies } = useAppSelector((state) => state.starred);
@@ -10,16 +9,11 @@ const StarredMovies = () => {
 
   return (
     <div className="starred" data-testid="starred">
-      {starredMovies.length > 0 && (
-        <div data-testid="starred-movies" className="starred-movies">
+      {starredMovies.length > 0 ? (
+        <div className="starred-movies" data-testid="starred-movies">
           <h6 className="header">Starred movies</h6>
-          <div className="row">
-            {starredMovies.map((movie) => (
-              <Movie movie={movie} key={movie.id} />
-            ))}
-          </div>
-
-          <footer className="text-center">
+          <MoviesList movies={starredMovies} />
+          <footer>
             <button
               className="btn btn-primary"
               onClick={() => dispatch(clearAllStarred())}
@@ -28,10 +22,8 @@ const StarredMovies = () => {
             </button>
           </footer>
         </div>
-      )}
-
-      {starredMovies.length === 0 && (
-        <div className="text-center empty-cart">
+      ) : (
+        <div className="empty-cart text-center">
           <i className="bi bi-star" />
           <p>There are no starred movies.</p>
           <p>
