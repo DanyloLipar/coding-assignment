@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import {
   starMovie,
@@ -12,14 +13,16 @@ import PlayerModal from "../PlayerModal";
 import placeholder from "../../assets/images/not-found-500X750.jpeg";
 
 const Movie = ({ movie }) => {
+  const [isOpened, setIsOpened] = useState(false);
   const dispatch = useAppDispatch();
   const { selectedMovie } = useAppSelector((state) => state.movies);
   const { starredMovies } = useAppSelector((state) => state.starred);
   const { watchLaterMovies } = useAppSelector((state) => state.watchLater);
 
-  const closeCard = (e) => {
-    e.stopPropagation();
-    e.currentTarget.closest(".card").classList.remove("opened");
+  const closeCard = (id) => {
+    if (movie.id === id) {
+      setIsOpened(true);
+    }
   };
 
   const viewTrailer = () => {
@@ -70,7 +73,8 @@ const Movie = ({ movie }) => {
     <div className="wrapper col-3 col-sm-4 col-md-3 col-lg-3 col-xl-2">
       <div
         className="card"
-        onClick={(e) => e.currentTarget.classList.add("opened")}
+        hidden={isOpened}
+        onClick={() => setIsOpened(false)}
       >
         <div className="card-body text-center">
           <div className="overlay" />
@@ -129,7 +133,7 @@ const Movie = ({ movie }) => {
         <button
           type="button"
           className="close"
-          onClick={closeCard}
+          onClick={() => closeCard(movie.id)}
           aria-label="Close"
         >
           <span aria-hidden="true">&times;</span>
