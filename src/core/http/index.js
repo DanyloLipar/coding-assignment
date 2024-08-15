@@ -2,8 +2,8 @@ import axios from "axios";
 
 export const APIRoutesBase = {
   MOVIE: `/movie`,
-  DISCROVER_MOVIE: `/discover/movie`,
-  SEARCH_MOVIE: `/search/movie/`,
+  DISCOVER_MOVIE: `/discover/movie`,
+  SEARCH_MOVIE: `/search/movie`,
 };
 
 const $api = axios.create({

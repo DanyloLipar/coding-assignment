@@ -1,17 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Movie from "./Movie";
 import "../assets/styles/components/movies.scss";
 
-import { useAppDispatch, useAppSelector } from "../store/store";
-import { fetchMovies } from "../store/reducers/movies/moviesSlice";
+import { useAppSelector } from "../store/store";
 
 const Movies = () => {
-  const dispatch = useAppDispatch();
   const { movies, fetchStatus } = useAppSelector((state) => state.movies);
-
-  useEffect(() => {
-    dispatch(fetchMovies());
-  }, [dispatch]);
 
   if (fetchStatus === "loading") {
     return <div>Loading...</div>;

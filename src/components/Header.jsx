@@ -2,9 +2,46 @@ import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import "../assets/styles/components/header.scss";
+import { useEffect, useState } from "react";
+import { useAppDispatch } from "../store/store";
+import { fetchMovies } from "../store/reducers/movies/moviesSlice";
+import { APIRoutesBase } from "../core/http";
+
+const Enums = {
+  DESC: "vote_count.desc",
+  ASC: "vote_count.asc",
+};
 
 const Header = () => {
+  const [search, setSearch] = useState("");
+  const [sorter, setSorter] = useState("vote_count.desc");
+
   const { starredMovies } = useSelector((state) => state.starred);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      search
+        ? dispatch(
+            fetchMovies({
+              url: APIRoutesBase.SEARCH_MOVIE,
+              query: { query: search },
+            })
+          )
+        : dispatch(
+            fetchMovies({
+              url: APIRoutesBase.DISCOVER_MOVIE,
+              query: { sort_by: sorter },
+            })
+          );
+    }, 700);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [dispatch, sorter, search]);
+
+  const handleSort = () => {
+    sorter === Enums.DESC ? setSorter(Enums.ASC) : setSorter(Enums.DESC);
+  };
 
   return (
     <header>
@@ -40,10 +77,13 @@ const Header = () => {
           placeholder="Search movies..."
           aria-label="Search movies"
           aria-describedby="search-addon"
+          value={search.query}
+          onChange={(event) => setSearch(event.target.value)}
         />
         <Link to="/" className="search-link">
           <i className="bi bi-search" aria-hidden="true" />
         </Link>
+        <button onClick={handleSort}>Sort</button>
       </div>
     </header>
   );

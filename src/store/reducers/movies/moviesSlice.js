@@ -1,14 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import RequestService from "../../../core/services/request.service";
-import { APIRoutesBase } from "../../../core/http";
 
 export const fetchMovies = createAsyncThunk(
   "movies/fetchMovies",
-  async (query = {}) => {
-    const response = await RequestService.fetchAllMovies(
-      APIRoutesBase.DISCROVER_MOVIE,
-      query
-    );
+  async ({ url, query }) => {
+    const response = await RequestService.fetchAllMovies(url, query);
     return response.data;
   }
 );
