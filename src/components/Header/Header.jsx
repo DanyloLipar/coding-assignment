@@ -1,11 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import "../assets/styles/components/header.scss";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../store/store";
-import { fetchMovies } from "../store/reducers/movies/moviesSlice";
-import { APIRoutesBase } from "../core/http";
+import { useAppDispatch } from "../../store/store";
+import { fetchMovies } from "../../store/reducers/movies/moviesSlice";
+import { APIRoutesBase } from "../../core/http";
+import "../../assets/styles/components/header.scss";
 
 const Enums = {
   DESC: "vote_count.desc",

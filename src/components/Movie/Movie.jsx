@@ -1,12 +1,15 @@
-import { useAppDispatch, useAppSelector } from "../store/store";
-import { starMovie, unstarMovie } from "../store/reducers/starred/starredSlice";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import {
+  starMovie,
+  unstarMovie,
+} from "../../store/reducers/starred/starredSlice";
 import {
   addToWatchLater,
   removeFromWatchLater,
-} from "../store/reducers/watchLater/watchLaterSlice";
-import { setSelectedMovie } from "../store/reducers/movies/moviesSlice";
-import YoutubePlayer from "./YoutubePlayer";
-import placeholder from "../assets/images/not-found-500X750.jpeg";
+} from "../../store/reducers/watchLater/watchLaterSlice";
+import { setSelectedMovie } from "../../store/reducers/movies/moviesSlice";
+import PlayerModal from "../PlayerModal";
+import placeholder from "../../assets/images/not-found-500X750.jpeg";
 
 const Movie = ({ movie }) => {
   const dispatch = useAppDispatch();
@@ -104,7 +107,7 @@ const Movie = ({ movie }) => {
             </button>
           </div>
           {selectedMovie && selectedMovie.id === movie.id ? (
-            <YoutubePlayer />
+            <PlayerModal />
           ) : (
             <img
               className="center-block"

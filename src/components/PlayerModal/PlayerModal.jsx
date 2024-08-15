@@ -1,11 +1,11 @@
 import ReactPlayer from "react-player";
-import { useAppDispatch, useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useEffect, useState } from "react";
-import RequestService from "../core/services/request.service";
-import { APIRoutesBase } from "../core/http";
-import { setSelectedMovie } from "../store/reducers/movies/moviesSlice";
+import RequestService from "../../core/services/request.service";
+import { APIRoutesBase } from "../../core/http";
+import { setSelectedMovie } from "../../store/reducers/movies/moviesSlice";
 
-const YoutubePlayer = () => {
+const PlayerModal = () => {
   const [videoKey, setVideoKey] = useState("");
   const { selectedMovie } = useAppSelector((state) => state.movies);
   const dispatch = useAppDispatch();
@@ -55,4 +55,4 @@ const YoutubePlayer = () => {
   );
 };
 
-export default YoutubePlayer;
+export default PlayerModal;

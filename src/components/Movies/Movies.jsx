@@ -1,8 +1,7 @@
 import React from "react";
-import Movie from "./Movie";
-import "../assets/styles/components/movies.scss";
-
-import { useAppSelector } from "../store/store";
+import Movie from "../Movie";
+import { useAppSelector } from "../../store/store";
+import "../../assets/styles/components/movies.scss";
 
 const Movies = () => {
   const { movies, fetchStatus } = useAppSelector((state) => state.movies);

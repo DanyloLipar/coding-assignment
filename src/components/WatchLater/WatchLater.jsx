@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../store/store";
-
-import Movie from "./Movie";
-import { removeAllWatchLater } from "../store/reducers/watchLater/watchLaterSlice";
-import "../assets/styles/components/starred.scss";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { removeAllWatchLater } from "../../store/reducers/watchLater/watchLaterSlice";
+import Movie from "../Movie";
+import "../../assets/styles/components/starred.scss";
 
 const WatchLater = () => {
   const { watchLaterMovies } = useAppSelector((state) => state.watchLater);

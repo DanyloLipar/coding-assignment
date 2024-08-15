@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import Movies from "../../components/Movies";
-import WatchLater from "../../components/WatchLater";
-import Starred from "../../components/Starred";
 import AppLayout from "../../layouts/AppLayout";
+import StarredMovies from "../../components/StarredMovies";
+import WatchLater from "../../components/WatchLater";
 
 const appRoutes = [
   {
@@ -11,7 +11,7 @@ const appRoutes = [
   },
   {
     path: "/starred",
-    element: <Starred />,
+    element: <StarredMovies />,
   },
   {
     path: "/watch-later",

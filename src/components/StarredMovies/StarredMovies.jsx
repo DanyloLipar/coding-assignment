@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
-import { clearAllStarred } from "../store/reducers/starred/starredSlice";
-import { useAppSelector, useAppDispatch } from "../store/store";
+import { clearAllStarred } from "../../store/reducers/starred/starredSlice";
+import { useAppSelector, useAppDispatch } from "../../store/store";
+import Movie from "../Movie";
+import "../../assets/styles/components/starred.scss";
 
-import Movie from "./Movie";
-import "../assets/styles/components/starred.scss";
-
-const Starred = () => {
+const StarredMovies = () => {
   const { starredMovies } = useAppSelector((state) => state.starred);
   const dispatch = useAppDispatch();
 
@@ -44,4 +43,4 @@ const Starred = () => {
   );
 };
 
-export default Starred;
+export default StarredMovies;
