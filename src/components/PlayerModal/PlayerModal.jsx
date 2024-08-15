@@ -45,7 +45,7 @@ const PlayerModal = () => {
         />
       ) : (
         <div>
-          <h6>no trailer available. Try another movie</h6>
+          <h6>No trailer available. Try another movie</h6>
         </div>
       )}
       <button onClick={() => dispatch(setSelectedMovie(null))}>

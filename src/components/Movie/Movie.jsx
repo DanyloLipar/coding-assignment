@@ -38,6 +38,34 @@ const Movie = ({ movie }) => {
     (watchLaterMovie) => watchLaterMovie.id === movie.id
   );
 
+  const handleIsStarred = () => {
+    dispatch(
+      isStarred
+        ? unstarMovie(movie)
+        : starMovie({
+            id: movie.id,
+            overview: movie.overview,
+            release_date: movie.release_date?.substring(0, 4),
+            poster_path: movie.poster_path,
+            title: movie.title,
+          })
+    );
+  };
+
+  const handleWatchLater = () => {
+    dispatch(
+      isInWatchLater
+        ? removeFromWatchLater(movie)
+        : addToWatchLater({
+            id: movie.id,
+            overview: movie.overview,
+            release_date: movie.release_date?.substring(0, 4),
+            poster_path: movie.poster_path,
+            title: movie.title,
+          })
+    );
+  };
+
   return (
     <div className="wrapper col-3 col-sm-4 col-md-3 col-lg-3 col-xl-2">
       <div
@@ -53,19 +81,7 @@ const Movie = ({ movie }) => {
             <span
               className="btn-star"
               data-testid={isStarred ? "unstar-link" : "starred-link"}
-              onClick={() =>
-                dispatch(
-                  isStarred
-                    ? unstarMovie(movie)
-                    : starMovie({
-                        id: movie.id,
-                        overview: movie.overview,
-                        release_date: movie.release_date?.substring(0, 4),
-                        poster_path: movie.poster_path,
-                        title: movie.title,
-                      })
-                )
-              }
+              onClick={handleIsStarred}
             >
               <i
                 className={`bi ${isStarred ? "bi-star-fill" : "bi-star"}`}
@@ -81,19 +97,7 @@ const Movie = ({ movie }) => {
               className={`btn btn-light btn-watch-later ${
                 isInWatchLater ? "blue" : ""
               }`}
-              onClick={() =>
-                dispatch(
-                  isInWatchLater
-                    ? removeFromWatchLater(movie)
-                    : addToWatchLater({
-                        id: movie.id,
-                        overview: movie.overview,
-                        release_date: movie.release_date?.substring(0, 4),
-                        poster_path: movie.poster_path,
-                        title: movie.title,
-                      })
-                )
-              }
+              onClick={handleWatchLater}
             >
               {isInWatchLater ? <i className="bi bi-check" /> : "Watch Later"}
             </button>
