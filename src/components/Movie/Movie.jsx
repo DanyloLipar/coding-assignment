@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import {
   starMovie,
@@ -9,13 +9,12 @@ import {
   removeFromWatchLater,
 } from "../../store/reducers/watchLater/watchLaterSlice";
 import { setSelectedMovie } from "../../store/reducers/movies/moviesSlice";
-import PlayerModal from "../PlayerModal";
 import placeholder from "../../assets/images/not-found-500X750.jpeg";
+import { openModal } from "../../store/reducers/modal/modalSlice";
 
 const Movie = ({ movie }) => {
   const [isOpened, setIsOpened] = useState(false);
   const dispatch = useAppDispatch();
-  const { selectedMovie } = useAppSelector((state) => state.movies);
   const { starredMovies } = useAppSelector((state) => state.starred);
   const { watchLaterMovies } = useAppSelector((state) => state.watchLater);
 
@@ -27,6 +26,7 @@ const Movie = ({ movie }) => {
   const viewTrailer = (event) => {
     event.stopPropagation();
     dispatch(setSelectedMovie(movie));
+    openModal();
   };
 
   if (!movie) {
@@ -107,7 +107,7 @@ const Movie = ({ movie }) => {
                 isInWatchLater ? "remove-watch-later" : "watch-later"
               }
               className={`btn btn-light btn-watch-later ${
-                isInWatchLater ? "blue" : ""
+                isInWatchLater ? "btn-blue" : ""
               }`}
               onClick={(event) => handleWatchLater(event)}
             >
@@ -131,9 +131,6 @@ const Movie = ({ movie }) => {
         >
           <span aria-hidden="true">&times;</span>
         </button>
-        {selectedMovie && selectedMovie.id === movie.id ? (
-          <PlayerModal />
-        ) : null}
       </div>
     </div>
   );

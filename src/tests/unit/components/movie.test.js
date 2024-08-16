@@ -1,37 +1,79 @@
-import { screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { renderWithProviders } from "../../utils/utils";
-import App from "../../../App";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { Provider } from "react-redux";
+import configureStore from "redux-mock-store";
+import Movie from "../../../components/Movie";
+import thunk from "redux-thunk";
+import { starMovie } from "../../../store/reducers/starred/starredSlice";
+import {
+  addToWatchLater,
+  removeFromWatchLater,
+} from "../../../store/reducers/watchLater/watchLaterSlice";
+import { moviesMock } from "../../mocks/movies.mocks";
 
-it("movies starred and saved to watch later", async () => {
-  renderWithProviders(<App />);
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
 
-  await userEvent.type(screen.getByTestId("search-movies"), "forrest gump");
-  await waitFor(() => {
-    expect(
-      screen.getAllByText("Through the Eyes of Forrest Gump")[0]
-    ).toBeInTheDocument();
-  });
-  const starMovieLink = screen.getAllByTestId("starred-link")[0];
-  await waitFor(() => {
-    expect(starMovieLink).toBeInTheDocument();
-  });
-  await userEvent.click(starMovieLink);
-  await waitFor(() => {
-    expect(screen.getByTestId("star-fill")).toBeInTheDocument();
-  });
-  await waitFor(() => {
-    expect(screen.getByTestId("unstar-link")).toBeInTheDocument();
-  });
-
-  const watchLaterLink = screen.getAllByTestId("watch-later")[0];
-  await waitFor(() => {
-    expect(watchLaterLink).toBeInTheDocument();
-  });
-  await userEvent.click(watchLaterLink);
-  await waitFor(() => {
-    expect(screen.getByTestId("remove-watch-later")).toBeInTheDocument();
+describe("Movie component", () => {
+  let store;
+  const movie = moviesMock.results[0];
+  beforeEach(() => {
+    store = mockStore({
+      starred: { starredMovies: [] },
+      watchLater: { watchLaterMovies: [] },
+    });
   });
 
-  await userEvent.click(screen.getAllByTestId("remove-watch-later")[0]);
+  test("should display movie details", () => {
+    render(
+      <Provider store={store}>
+        <Movie movie={movie} />
+      </Provider>
+    );
+
+    expect(screen.getByText(/Inception/i)).toBeInTheDocument();
+  });
+
+  test("should dispatch starMovie when star button is clicked", () => {
+    render(
+      <Provider store={store}>
+        <Movie movie={movie} />
+      </Provider>
+    );
+
+    fireEvent.click(screen.getByTestId("starred-link"));
+
+    const actions = store.getActions();
+    expect(actions).toContainEqual(starMovie(movie));
+  });
+
+  test("should dispatch addToWatchLater when watch later button is clicked", () => {
+    render(
+      <Provider store={store}>
+        <Movie movie={movie} />
+      </Provider>
+    );
+
+    fireEvent.click(screen.getByTestId("watch-later"));
+
+    const actions = store.getActions();
+    expect(actions).toContainEqual(addToWatchLater(movie));
+  });
+
+  test("should dispatch removeFromWatchLater when remove button is clicked", () => {
+    store = mockStore({
+      starred: { starredMovies: [] },
+      watchLater: { watchLaterMovies: [movie] },
+    });
+
+    render(
+      <Provider store={store}>
+        <Movie movie={movie} />
+      </Provider>
+    );
+
+    fireEvent.click(screen.getByTestId("remove-watch-later"));
+
+    const actions = store.getActions();
+    expect(actions).toContainEqual(removeFromWatchLater(movie));
+  });
 });

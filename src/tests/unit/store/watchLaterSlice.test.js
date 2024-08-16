@@ -1,34 +1,46 @@
-import watchLaterSlice from "../data/watchLaterSlice";
-import { moviesMock } from "../../mocks/movies.mocks";
+import { configureStore } from "@reduxjs/toolkit";
+import watchLaterSlice, {
+  addToWatchLater,
+  removeFromWatchLater,
+  removeAllWatchLater,
+} from "../../../store/reducers/watchLater/watchLaterSlice";
 
-describe("watchLaterSlice test", () => {
-  const state = { watchLaterMovies: [] };
+describe("watchLaterSlice", () => {
+  let store;
 
-  it("should set initial state", () => {
-    const initialState = state;
-    const action = { type: "" };
-    const result = watchLaterSlice.reducer(initialState, action);
-    expect(result).toEqual({ watchLaterMovies: [] });
+  beforeEach(() => {
+    store = configureStore({
+      reducer: {
+        watchLater: watchLaterSlice,
+      },
+    });
   });
 
-  it("should add movie to watch later", () => {
-    const initialState = { ...state, watchLaterMovies: [] };
-    const action = watchLaterSlice.actions.addToWatchLater(moviesMock[0]);
-    const result = watchLaterSlice.reducer(initialState, action);
-    expect(result.watchLaterMovies[0]).toBe(moviesMock[0]);
+  test("should add a movie to watchLaterMovies when addToWatchLater is dispatched", () => {
+    const movie = { id: 1, title: "Inception" };
+    store.dispatch(addToWatchLater(movie));
+
+    const state = store.getState().watchLater;
+    expect(state.watchLaterMovies).toContainEqual(movie);
   });
 
-  it("should remove movie from watch later", () => {
-    const initialState = { ...state, watchLaterMovies: moviesMock };
-    const action = watchLaterSlice.actions.removeFromWatchLater(moviesMock[0]);
-    const result = watchLaterSlice.reducer(initialState, action);
-    expect(result.watchLaterMovies[0]).toBe(moviesMock[1]);
+  test("should remove a movie from watchLaterMovies when removeFromWatchLater is dispatched", () => {
+    const movie = { id: 1, title: "Inception" };
+    store.dispatch(addToWatchLater(movie));
+    store.dispatch(removeFromWatchLater(movie));
+
+    const state = store.getState().watchLater;
+    expect(state.watchLaterMovies).not.toContainEqual(movie);
   });
 
-  it("should remove all movies", () => {
-    const initialState = { ...state, watchLaterMovies: moviesMock };
-    const action = watchLaterSlice.actions.remveAllWatchLater(state);
-    const result = watchLaterSlice.reducer(initialState, action);
-    expect(Object.keys(result.watchLaterMovies).length).toEqual(0);
+  test("should clear all watchLaterMovies when removeAllWatchLater is dispatched", () => {
+    const movie1 = { id: 1, title: "Inception" };
+    const movie2 = { id: 2, title: "The Matrix" };
+    store.dispatch(addToWatchLater(movie1));
+    store.dispatch(addToWatchLater(movie2));
+    store.dispatch(removeAllWatchLater());
+
+    const state = store.getState().watchLater;
+    expect(state.watchLaterMovies).toHaveLength(0);
   });
 });
