@@ -2,9 +2,12 @@ import $api from "../http";
 
 export default class RequestService {
   static async fetchAllMovies(url, query) {
-    return $api.get(`${url}?api_key=${process.env.REACT_APP_API_KEY}`, {
-      params: query,
-    });
+    return $api.get(
+      `${url}?api_key=${process.env.REACT_APP_API_KEY}&sort_by=vote_count.desc`,
+      {
+        params: query,
+      }
+    );
   }
 
   static async fetchMovie(url, id, query) {

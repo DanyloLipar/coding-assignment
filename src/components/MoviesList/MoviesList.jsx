@@ -8,13 +8,13 @@ const MoviesList = ({ movies }) => {
     return <div>Loading...</div>;
   }
 
-  if (fetchStatus === "error") {
+  if (fetchStatus === "error" || movies.length === 0) {
     return <div>Error loading movies. Please try again later.</div>;
   }
 
   return (
     <div className="movies-container" data-testid="movies">
-      {movies.map((movie) => (
+      {movies?.map((movie) => (
         <Movie movie={movie} key={movie.id} className="movie-card" />
       ))}
     </div>

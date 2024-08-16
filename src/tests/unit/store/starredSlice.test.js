@@ -1,35 +1,46 @@
-import starredSlice from '../data/starredSlice'
-import { moviesMock } from './movies.mocks'
+import { configureStore } from "@reduxjs/toolkit";
+import starredSlice, {
+  clearAllStarred,
+  starMovie,
+  unstarMovie,
+} from "../../../store/reducers/starred/starredSlice";
 
-describe('starredSlice test', () => {
+describe("starredSlice", () => {
+  let store;
 
-    const state = { starredMovies: [] }
+  beforeEach(() => {
+    store = configureStore({
+      reducer: {
+        starred: starredSlice,
+      },
+    });
+  });
 
-    it('should set an initial state', () => {
-        const initialState = state
-        const action = { type: '' }
-        const result = starredSlice.reducer(initialState, action)
-        expect(result).toEqual({ starredMovies: []})
-      })    
+  test("should add a movie to starredMovies when starMovie is dispatched", () => {
+    const movie = { id: 1, title: "Inception" };
+    store.dispatch(starMovie(movie));
 
-      it('should add movie to starred', () => {
-        const initialState = { ...state, starredMovies: [] }
-        const action = starredSlice.actions.starMovie(moviesMock[0])
-        const result = starredSlice.reducer(initialState, action)
-        expect(result.starredMovies[0]).toBe(moviesMock[0])
-      })
+    const state = store.getState().starred;
+    expect(state.starredMovies).toContainEqual(movie);
+  });
 
-      it('should remove movie from starred', () => {
-        const initialState = { ...state, starredMovies: moviesMock }
-        const action = starredSlice.actions.unstarMovie(moviesMock[0])
-        const result = starredSlice.reducer(initialState, action)
-        expect(result.starredMovies[0]).toBe(moviesMock[1])
-      })
+  test("should remove a movie from starredMovies when unstarMovie is dispatched", () => {
+    const movie = { id: 1, title: "Inception" };
+    store.dispatch(starMovie(movie));
+    store.dispatch(unstarMovie(movie));
 
-      it('should remove all movies', () => {
-        const initialState = { ...state, starredMovies: moviesMock }
-        const action = starredSlice.actions.clearAllStarred(state)
-        const result = starredSlice.reducer(initialState, action)
-        expect(Object.keys(result.starredMovies).length).toEqual(0)
-      })
-})
+    const state = store.getState().starred;
+    expect(state.starredMovies).not.toContainEqual(movie);
+  });
+
+  test("should clear all starredMovies when clearAllStarred is dispatched", () => {
+    const movie1 = { id: 1, title: "Inception" };
+    const movie2 = { id: 2, title: "The Matrix" };
+    store.dispatch(starMovie(movie1));
+    store.dispatch(starMovie(movie2));
+    store.dispatch(clearAllStarred());
+
+    const state = store.getState().starred;
+    expect(state.starredMovies).toHaveLength(0);
+  });
+});

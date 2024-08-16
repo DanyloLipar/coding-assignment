@@ -5,7 +5,11 @@ import MoviesList from "../MoviesList";
 const Movies = () => {
   const { movies } = useAppSelector((state) => state.movies);
 
-  return <MoviesList movies={movies} />;
+  return (
+    <div id="movies-list">
+      <MoviesList movies={movies} />;
+    </div>
+  );
 };
 
 export default Movies;

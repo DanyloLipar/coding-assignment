@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import { useAppDispatch, useAppSelector } from "../../store/store";
 import RequestService from "../../core/services/request.service";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import { APIRoutesBase } from "../../core/http";
 import { closeModal, openModal } from "../../store/reducers/modal/modalSlice";
 import { setSelectedMovie } from "../../store/reducers/movies/moviesSlice";
@@ -32,6 +32,7 @@ const PlayerModal = () => {
         dispatch(openModal());
       }
     } catch (error) {
+      dispatch(openModal());
       console.error("Failed to fetch movie:", error);
     }
   };
@@ -55,7 +56,7 @@ const PlayerModal = () => {
             data-testid="youtube-player"
           />
         ) : (
-          <div>
+          <div className="player-error">
             <h6>No trailer available. Try another movie</h6>
           </div>
         )}

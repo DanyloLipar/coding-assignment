@@ -19,3 +19,15 @@
   z-index: 1001;
   margin: 0 auto;
 }
+
+.player-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+  height: 60px;
+  width: 30%;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import {
   starMovie,
@@ -9,7 +9,6 @@ import {
   removeFromWatchLater,
 } from "../../store/reducers/watchLater/watchLaterSlice";
 import { setSelectedMovie } from "../../store/reducers/movies/moviesSlice";
-import PlayerModal from "../PlayerModal";
 import placeholder from "../../assets/images/not-found-500X750.jpeg";
 import { openModal } from "../../store/reducers/modal/modalSlice";
 
@@ -108,7 +107,7 @@ const Movie = ({ movie }) => {
                 isInWatchLater ? "remove-watch-later" : "watch-later"
               }
               className={`btn btn-light btn-watch-later ${
-                isInWatchLater ? "blue" : ""
+                isInWatchLater ? "btn-blue" : ""
               }`}
               onClick={(event) => handleWatchLater(event)}
             >

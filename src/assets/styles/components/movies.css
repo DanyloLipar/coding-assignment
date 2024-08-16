@@ -1,42 +1,64 @@
 .movies-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  padding: 10px;
+  grid-auto-rows: 2fr;
+  min-height: 100vh;
+  margin-bottom: 40px;
 }
 
 .movie-card {
+  width: 100%;
+  height: 100%;
+  max-width: 400px;
+  cursor: pointer;
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
-  width: 100%;
-  max-width: 300px;
-  cursor: pointer;
-  box-sizing: border-box;
+  background-color: #f0f0f0;
 }
-
 .card {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
   position: relative;
-  display: flex;
-  flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 0;
 }
 
-.card.opened {
-  transform: scale(1.07);
-  box-shadow: 0 4px 8px rgba(173, 130, 130, 0.2);
+.movie-card::after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
 }
 
-.card-body {
-  padding: 0;
+.card {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 0;
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
 }
 
 .card-body img {
@@ -46,9 +68,9 @@
 }
 
 .info_panel {
-  background: #f8f9fa;
-  padding: 15px;
+  padding: 0;
   text-align: center;
+  background: #f8f9fa;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -57,7 +79,8 @@
 
 .info_panel .overview {
   font-size: 14px;
-  margin-bottom: 10px;
+  margin-bottom: 0;
+  padding: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -67,53 +90,35 @@
 
 .info_panel .year {
   font-size: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
 .info_panel .btn-star,
 .info_panel .btn-watch-later,
 .info_panel .btn-dark {
-  margin: 5px 0;
-}
-
-.btn-star {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #f8c102;
-}
-
-.btn-star:hover {
-  color: #f4a300;
+  margin: 2px 5px;
 }
 
 i.bi-star {
-  color: #e50914;
+  color: #ff0000;
 }
 
-.btn-watch-later {
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
-  color: #333;
+.btn-watch-later:hover {
+  background: lightblue;
 }
 
-.btn-watch-later.blue {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.btn-dark {
-  background-color: #343a40;
-  color: #fff;
-}
-
-.btn-dark:hover {
-  background-color: #23272b;
+.btn-blue {
+  background: blue;
 }
 
 .title {
   text-align: center;
-  margin: 10px 0;
+  margin: 0;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 5px;
 }
 
 .close {
@@ -131,28 +136,8 @@ i.bi-star {
   color: #ff0000;
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: none;
-}
-
-.card:hover .overlay {
-  display: block;
-}
-
-.center-block {
-  display: block;
-  margin: 0 auto;
-}
-
 @media (max-width: 768px) {
   .movie-card {
-    width: 100%;
     max-width: none;
     margin: 0;
   }
